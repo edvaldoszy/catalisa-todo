@@ -21,6 +21,21 @@ router.get('/usuarios', async function (req, res) {
   res.json(usuarios);
 });
 
+router.post('/usuarios', async function (req, res) {
+  const usuario = new Usuario({
+    nome: req.body.nome,
+    email: req.body.email,
+    senha: req.body.senha,
+  });
+  // INSERT INTO usuario VALUES ('nome', 'email', 'senha')
+  await usuario.save();
+
+  res.send({
+    mensagem: 'Usuário cadastrado com sucesso',
+    usuario: usuario
+  });
+});
+
 router.get('/tarefas', async function (req, res) {
   const tarefas = await Tarefa
     .fetchAll();
