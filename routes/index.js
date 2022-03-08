@@ -36,13 +36,39 @@ router.post('/usuarios', async function (req, res) {
       email: req.body.email,
       senha: req.body.senha,
     });
-    // INSERT INTO usuario VALUES ('nome', 'email', 'senha')
     await usuario.save();
 
     res.send({
       mensagem: 'Usuário cadastrado com sucesso',
       usuario: usuario
     });
+  }
+});
+
+router.put('/usuarios/:usuarioId', async function (req, res) {
+  const usuarioId = req.params.usuarioId;
+  const usuarioExistente = await Usuario
+    .where('email', req.body.email)
+    .where('id', '!=', usuarioId)
+    .fetch();
+  if (usuarioExistente) {
+    res.json({
+      mensagem: 'O endereço de e-mail já está cadastrado'
+    });
+
+  } else {
+    const usuario = new Usuario({
+      id: usuarioId,
+      nome: req.body.nome,
+      email: req.body.email,
+      senha: req.body.senha,
+    });
+    await usuario.save();
+
+    res.json({
+      mensagem: 'Usuário alterado com sucesso',
+      usuario: usuario
+    })
   }
 });
 
