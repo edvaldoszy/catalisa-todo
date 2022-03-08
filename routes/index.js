@@ -22,18 +22,28 @@ router.get('/usuarios', async function (req, res) {
 });
 
 router.post('/usuarios', async function (req, res) {
-  const usuario = new Usuario({
-    nome: req.body.nome,
-    email: req.body.email,
-    senha: req.body.senha,
-  });
-  // INSERT INTO usuario VALUES ('nome', 'email', 'senha')
-  await usuario.save();
+  const usuarioExistente = await Usuario
+    .where('email', req.body.email)
+    .fetch();
+  if (usuarioExistente) {
+    res.json({
+      mensagem: 'O endereço de e-mail já está cadastrado'
+    });
+    
+  } else {
+    const usuario = new Usuario({
+      nome: req.body.nome,
+      email: req.body.email,
+      senha: req.body.senha,
+    });
+    // INSERT INTO usuario VALUES ('nome', 'email', 'senha')
+    await usuario.save();
 
-  res.send({
-    mensagem: 'Usuário cadastrado com sucesso',
-    usuario: usuario
-  });
+    res.send({
+      mensagem: 'Usuário cadastrado com sucesso',
+      usuario: usuario
+    });
+  }
 });
 
 router.get('/tarefas', async function (req, res) {
