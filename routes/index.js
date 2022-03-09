@@ -68,7 +68,7 @@ router.put('/usuarios/:usuarioId', async function (req, res) {
     res.json({
       mensagem: 'Usuário alterado com sucesso',
       usuario: usuario
-    })
+    });
   }
 });
 
@@ -76,6 +76,20 @@ router.get('/tarefas', async function (req, res) {
   const tarefas = await Tarefa
     .fetchAll();
   res.json(tarefas);
+});
+
+router.post('/tarefas', async function (req, res) {
+  const tarefa = new Tarefa({
+    titulo: req.body.titulo,
+    usuario_id: req.body.usuario_id,
+    data_conclusao: req.body.data_conclusao,
+  });
+  await tarefa.save();
+
+  res.json({
+    mensagem: "Tarefa cadastrada com sucesso",
+    tarefa: tarefa,
+  })
 });
 
 router.get('/usuarios/:usuarioId/tarefas', async function (req, res) {
