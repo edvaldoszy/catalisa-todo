@@ -92,6 +92,21 @@ router.post('/tarefas', async function (req, res) {
   })
 });
 
+router.put('/tarefas/:tarefaId', async function (req, res) {
+  const tarefaId = req.params.tarefaId;
+  const tarefa = new Tarefa({
+    id: tarefaId,
+    titulo: req.body.titulo,
+    data_conclusao: req.body.data_conclusao,
+  });
+  await tarefa.save();
+
+  res.json({
+    mensagem: 'Tarefa alterada com sucesso',
+    tarefa: tarefa,
+  });
+});
+
 router.get('/usuarios/:usuarioId/tarefas', async function (req, res) {
   const usuarioId = req.params.usuarioId;
   const tarefas = await Tarefa
