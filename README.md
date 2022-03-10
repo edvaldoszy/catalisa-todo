@@ -6,24 +6,24 @@ Projeto de gerenciamento de tarefas criado durante o Bootcampo Catalisa na facul
 
 **Estrutura**
 
-- Gerador do projeto ([Express Generator](https://expressjs.com/pt-br/starter/generator.html))
+- Gerador do projeto ([express-generator](https://expressjs.com/pt-br/starter/generator.html))
 - Atualiza o código ao salvar ([nodemon](https://www.npmjs.com/package/nodemon))
 
 **Banco de dados**
 
-- Gerador de SQL ([Knex](https://knexjs.org))
-- ORM - Object-Relational Mapping ([Bookshelf](https://bookshelfjs.org))
+- Gerador de SQL ([knex](https://knexjs.org))
+- ORM - Object-Relational Mapping ([bookshelf](https://bookshelfjs.org))
 - Driver de conexão com o MySQL ([msql2](https://www.npmjs.com/package/mysql2))
 
 **Validação**
 
-- Biblioteca de validação ([Joi](https://github.com/sideway/joi))
+- Biblioteca de validação ([joi](https://github.com/sideway/joi))
 
 **Criptografia**
 
-- Bibliteca de criptografia da senha ([BCrypt](https://www.npmjs.com/package/bcryptjs))
+- Bibliteca de criptografia da senha ([bcryptjs](https://www.npmjs.com/package/bcryptjs))
 
 **Autenticação**
 
-- Biblioteca do token ([JWT](https://www.npmjs.com/package/jsonwebtoken))
+- Biblioteca do token ([jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken))
 - Website para validação do JWT ([jwt.io](https://jwt.io/))
