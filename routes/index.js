@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const Usuario = require('../models/usuario');
 const Tarefa = require('../models/tarefa');
+const validadoresUsuario = require('../validators/usuarios')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -21,7 +22,7 @@ router.get('/usuarios', async function (req, res) {
   res.json(usuarios);
 });
 
-router.post('/usuarios', async function (req, res) {
+router.post('/usuarios', validadoresUsuario.validaCriacaoUsuario, async function (req, res) {
   const usuarioExistente = await Usuario
     .where('email', req.body.email)
     .fetch();
