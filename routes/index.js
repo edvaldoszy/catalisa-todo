@@ -72,6 +72,24 @@ router.put('/usuarios/:usuarioId', async function (req, res) {
   }
 });
 
+router.delete('/usuarios/:usuarioId', async function (req, res) {
+  const usuario = await Usuario
+    .where('id', req.params.usuarioId)
+    .fetch();
+  if (usuario) {
+    // DELETE FROM usuario WHERE id = req.params.usuarioId
+    await usuario.destroy();
+    res.json({
+      mensagem: 'Usuário excluído com sucesso',
+    })
+  } else {
+    res.json({
+      mensagem: 'O usuário não existe',
+    });
+  }
+  
+});
+
 router.get('/tarefas', async function (req, res) {
   const tarefas = await Tarefa
     .fetchAll();
