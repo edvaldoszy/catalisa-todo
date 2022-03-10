@@ -47,7 +47,7 @@ router.post('/usuarios', validadoresUsuario.validaCriacaoUsuario, async function
   }
 });
 
-router.put('/usuarios/:usuarioId', async function (req, res) {
+router.put('/usuarios/:usuarioId', validadoresUsuario.validaEdicaoUsuario, async function (req, res) {
   const usuarioId = req.params.usuarioId;
   const usuarioExistente = await Usuario
     .where('email', req.body.email)
@@ -111,7 +111,7 @@ router.post('/tarefas', validadoresTarefa.validaCadastroTarefa, async function (
   });
 });
 
-router.put('/tarefas/:tarefaId', async function (req, res) {
+router.put('/tarefas/:tarefaId', validadoresTarefa.validaEdicaoTarefa, async function (req, res) {
   const tarefaId = req.params.tarefaId;
   const tarefa = new Tarefa({
     id: tarefaId,
