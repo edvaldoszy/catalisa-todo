@@ -3,6 +3,7 @@ var router = express.Router();
 const Usuario = require('../models/usuario');
 const Tarefa = require('../models/tarefa');
 const validadoresUsuario = require('../validators/usuarios')
+const validadoresTarefa = require('../validators/tarefas');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -96,7 +97,7 @@ router.get('/tarefas', async function (req, res) {
   res.json(tarefas);
 });
 
-router.post('/tarefas', async function (req, res) {
+router.post('/tarefas', validadoresTarefa.validaCadastroTarefa, async function (req, res) {
   const tarefa = new Tarefa({
     titulo: req.body.titulo,
     usuario_id: req.body.usuario_id,
