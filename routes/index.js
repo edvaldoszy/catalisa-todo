@@ -1,9 +1,11 @@
 var express = require('express');
 var router = express.Router();
+const jwt = require('jsonwebtoken');
 const Usuario = require('../models/usuario');
 const Tarefa = require('../models/tarefa');
 const validadoresUsuario = require('../validators/usuarios')
 const validadoresTarefa = require('../validators/tarefas');
+const autenticacao = require('../autenticacao');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -15,6 +17,28 @@ router.get('/perfil', function(req, res, next) {
     nome: 'Edvaldo Szymonek',
     email: 'edvaldo@mail.com',
   });
+});
+
+router.post('/login', async function (req, res) {
+  const usuario = await Usuario
+    .where('email', req.body.email)
+    .fetch();
+  if (usuario && usuario.get('senha') === req.body.senha) {
+    const payload = {
+      id: usuario.get('id'),
+      nome: usuario.get('nome'),
+      email: usuario.get('email'),
+    };
+    const token = jwt.sign(payload, 'minha-senha');
+    res.json({
+      mensagem: 'Login efetuado com sucesso',
+      token: token,
+    });
+  } else {
+    res.json({
+      mensagem: 'Credenciais inválidas',
+    });
+  }
 });
 
 router.get('/usuarios', async function (req, res) {
@@ -91,8 +115,9 @@ router.delete('/usuarios/:usuarioId', async function (req, res) {
   }
 });
 
-router.get('/tarefas', async function (req, res) {
+router.get('/tarefas', autenticacao, async function (req, res) {
   const tarefas = await Tarefa
+    .where('usuario_id', req.usuario.id)
     .fetchAll();
   res.json(tarefas);
 });
