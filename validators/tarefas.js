@@ -6,9 +6,6 @@ function validaCadastroTarefa(req, res, next) {
       .min(1)
       .max(300)
       .required(),
-    usuario_id: Joi.number()
-      .integer()
-      .required(),
     data_conclusao: Joi.date()
       .allow(null),
   });

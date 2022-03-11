@@ -122,10 +122,10 @@ router.get('/tarefas', autenticacao, async function (req, res) {
   res.json(tarefas);
 });
 
-router.post('/tarefas', validadoresTarefa.validaCadastroTarefa, async function (req, res) {
+router.post('/tarefas', autenticacao, validadoresTarefa.validaCadastroTarefa, async function (req, res) {
   const tarefa = new Tarefa({
     titulo: req.body.titulo,
-    usuario_id: req.body.usuario_id,
+    usuario_id: req.usuario.id,
     data_conclusao: req.body.data_conclusao,
   });
   await tarefa.save();
@@ -162,9 +162,10 @@ router.put('/tarefas/:tarefaId', autenticacao, validadoresTarefa.validaEdicaoTar
   });
 });
 
-router.delete('/tarefas/:tarefaId', async function (req, res) {
+router.delete('/tarefas/:tarefaId', autenticacao, async function (req, res) {
   const tarefa = await Tarefa
     .where('id', req.params.tarefaId)
+    .where('usuario_id', req.usuario.id)
     .fetch();
   if (tarefa) {
     // DELETE FROM tarefas WHERE id = req.params.tarefaId
