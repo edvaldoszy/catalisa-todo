@@ -136,8 +136,19 @@ router.post('/tarefas', validadoresTarefa.validaCadastroTarefa, async function (
   });
 });
 
-router.put('/tarefas/:tarefaId', validadoresTarefa.validaEdicaoTarefa, async function (req, res) {
+router.put('/tarefas/:tarefaId', autenticacao, validadoresTarefa.validaEdicaoTarefa, async function (req, res) {
   const tarefaId = req.params.tarefaId;
+  const tarefaExistente = await Tarefa
+    .where('id', tarefaId)
+    .where('usuario_id', req.usuario.id)
+    .fetch();
+  if (tarefaExistente === null) {
+    res.json({
+      mensagem: 'A tarefa não existe',
+    });
+    return;
+  }
+
   const tarefa = new Tarefa({
     id: tarefaId,
     titulo: req.body.titulo,
